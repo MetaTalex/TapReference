@@ -1,0 +1,55 @@
+/* Empty. Add your own CSS if you like */
+.container{
+
+}
+
+.user-container{
+Height:82px;
+background-color: #f2f2f2;
+}
+
+.user-container:hover {
+    background-color: #cce5ff;
+}
+
+.search-avatar{
+float:left;
+Width: 82px;
+}
+
+.img-box{
+float:left;
+}
+
+.details-box{
+float:left;
+}
+
+.right-box{
+float:Right;
+}
+
+.referral-section{
+background-color: #efefef;
+}
+
+.referral-section h2{
+text-align:center;
+}
+
+.referral-box{
+background-color: #cce5ff;
+}
+
+.referrer-box{
+Height: 125px;
+}
+
+.write-box{
+background-color: #f2f2f2;
+width: 90%;
+height: 75%;
+margin: auto;
+border: solid 1px #FFF;
+
+}
