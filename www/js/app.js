@@ -63,7 +63,7 @@ TapReference.config(function($stateProvider, $urlRouterProvider) {
       }
     })
 	
-	.state('tab.login', {
+.state('tab.login', {
     url: '/login',
     views: {
       'login': {
@@ -72,13 +72,18 @@ TapReference.config(function($stateProvider, $urlRouterProvider) {
       }
     }
   })
+
 	.state('tab.register', {
-	url: '/register',
-	views {
+		url: '/register?user',
+		params: {
+			pass: "",
+		},
+	views: {
 		'register': {
 			templateUrl: 'templates/register.html',
 			controller: 'RegisterCtrl'
-		}
+		},
+		reload:true
 	}
   })
 
