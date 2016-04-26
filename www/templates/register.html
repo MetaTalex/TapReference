@@ -5,6 +5,47 @@
       <div class="list">
       <form name="registerForm" ng-model-options="{ getterSetter: true }">
         <label class="item item-input">
+          <input type="text" ng-model="form.email" placeholder="Email Address" />
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="form.firstName" placeholder="First Name" />
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="form.secondName" placeholder="Second Name" />
+        </label>
+        <!---<label class="item item-input">
+          <input type="text" ng-model="form.company" placeholder="Please Enter the name of the Company/Organization you currently work for" />
+        </label>-->
+		<!---i.e the individual's LITERAL job title
+		<label class="item item-input">
+          <input type="text" ng-model="form.occupation" placeholder="Occupation" />
+        </label>-->
+		<!-- Position = CEO, Board director/executive, manager, worker etc
+		This option would have to be a choice between a few options
+        <label class="item item-input">
+          <input type="text" ng-model="form.position" placeholder="Position" />
+        </label>
+		--->
+        <!---<label class="item item-input">
+          <input type="text" ng-model="form.username" placeholder="Username" />
+        </label>--->
+        <label class="item item-input">
+          <input type="password" ng-model="form.password" placeholder="Password" />
+        </label>
+        <label class="item item-input">
+          <input type="password" ng-model="form.confirmPassword" placeholder="Confirm password" />
+        </label>
+        <label class="item">
+			<button class="button button-block button-balanced" ng-click="register()" type="submit">Register</button>
+        </label>
+      </form>
+      </div>
+	  
+	  
+	  <!--
+      <div class="list">
+      <form name="registerForm" ng-model-options="{ getterSetter: true }">
+        <label class="item item-input">
           <input type="text" ng-model="form.username" placeholder="Username" />
         </label>
         <label class="item item-input">
@@ -18,5 +59,8 @@
         </label>
       </form>
       </div>
+	  -->
+	  
+	  
   </ion-content>
 </ion-view>
