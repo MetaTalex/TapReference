@@ -32,18 +32,11 @@ angular.module('starter.controllers', [])
 		    });
 		}).then(function(authData) {
 
-			//$scope.firstName = $stateParams['fName']
-			//$scope.secondName = $stateParams['sName']
 			var user = fb.child("users").child(authData.uid);
 			user.child("Email").set(email);
 			user.child("First Name").set(firstName);
 			user.child("Second Name").set(secondName);
-			
-			
-			user.once("value", function(snapshot) {
-			console.log(snapshot.val());
-			});
-
+					
 		    $location.path("/tab/profile");
 			
 		}).catch(function(error) {
@@ -81,6 +74,32 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ProfileCtrl', function($scope) {})
+.controller('ProfileCtrl', function($scope) {
+	function authDataCallback(authData) {
+  if (authData) {
+  //store the authData object in your service
+  console.log("Hello");
+  } else {
+   //clear the authData object in your service
+   //re-route user to logged out page
+    console.log("User is logged out");
+  }
+}
+	
+	$scope.profile = function(authData) {
+		var fbAuth = $firebaseAuth(fb);
+		var user = fb.child("users").child(authData.uid);
+		var _fullName = user.child("First Name")+" "+user.child("Second Name");
+		//$scope.fullName = "";
+		$scope.details = {
+	    fullName:
+		    function (userFullName) {
+			    return arguments.length ? (_fullName = userFullName) : _fullName
+		    }
+		}
+	}
+
+
+})
 
 .controller('SearchCtrl', function($scope) {})
