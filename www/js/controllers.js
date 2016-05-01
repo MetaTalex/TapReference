@@ -76,6 +76,7 @@ angular.module('starter.controllers', [])
 .controller('ProfileCtrl', function($scope, $stateParams, $firebaseObject, $ionicLoading) {
 	$scope.uid = $stateParams['uid'];
 	$scope.fullName = "No name";
+	$scope.profileClass = "blur"
 
 	$ionicLoading.show({
 		template: "<ion-spinner></ion-spinner>",
@@ -85,6 +86,7 @@ angular.module('starter.controllers', [])
 	user.$loaded().then(function() {
 		$scope.fullName = user["First Name"] + " " + user["Second Name"];
 		$ionicLoading.hide();
+		$scope.profileClass = "";
 	})
 })
 

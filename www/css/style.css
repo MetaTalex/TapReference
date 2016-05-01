@@ -3,11 +3,9 @@
 
 }
 
-.loading-container  .loading  {
-background-color: #f2f2f2;
-opacity: 1.0;
-background-color: rgba(0, 0, 0, 0);
 
+.loading-container  .loading  {
+	background-color: rgba(1, 1, 1, 1);
 }
 
 
@@ -60,4 +58,13 @@ height: 75%;
 margin: auto;
 border: solid 1px #FFF;
 
+}
+
+.blur {
+	filter: blur(6px);
+	-webkit-filter: blur(6px);
+	-moz-filter: blur(6px); 
+	-o-filter: blur(6px); 
+	-ms-filter: blur(6px); 
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='6');
 }

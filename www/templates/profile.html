@@ -1,5 +1,6 @@
 <ion-view view-title="Profile">
   <ion-content class="padding">
+	<div ng-class="profileClass">
 	<div class="container">
 		<img class="profile-avatar" src="img/blank_avatar_small.png" ></img>
 		<div class="right-box">
@@ -37,6 +38,7 @@
 			<textarea class="write-box" rows="12" cols="50"></textarea>
 			<button class="button button-block button-positive" ng-click="login(username, password)" type="submit">Submit</button>
 		</div>
+	</div>
 	</div>
   </ion-content>
 </ion-view>
