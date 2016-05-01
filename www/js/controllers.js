@@ -1,25 +1,25 @@
 angular.module('starter.controllers', [])
 
 
-.controller('LoginCtrl', function($scope, $firebaseAuth, $location, $state) {
+.controller('LoginCtrl', function($scope, $firebaseAuth, $state) {
     $scope.login = function(email, password) {
         var fbAuth = $firebaseAuth(fb);
         fbAuth.$authWithPassword({
             email: email,
             password: password
         }).then(function(authData) {
-            $location.path("/tab/profile");
+             $state.go("tab.profile", { uid: authData.uid })
         }).catch(function(error) {
             console.error("ERROR: " + error);
         });
     }
 
-    $scope.register = function(email, password) {
+    /*$scope.register = function(email, password) {
 	    $state.go("tab.register", { mail: email, pass: password })
-    }
+    }*/
 })
 
-.controller('RegisterCtrl', function($scope, $firebaseAuth, $location, $stateParams) {
+.controller('RegisterCtrl', function($scope, $firebaseAuth, $state, $stateParams) {
     $scope.register = function() {
         var fbAuth = $firebaseAuth(fb);
 	with ($scope) {
@@ -36,12 +36,11 @@ angular.module('starter.controllers', [])
 			user.child("Email").set(email);
 			user.child("First Name").set(firstName);
 			user.child("Second Name").set(secondName);
-					
-		    $location.path("/tab/profile");
-			
-		}).catch(function(error) {
-		    console.error("ERROR " + error);
-		});
+			$state.go("tab.profile", { uid: authData.uid });
+			}).catch(function(error) {
+				console.error("ERROR " + error);
+			});
+
 	}
     }
 	$scope.email = $stateParams['mail']
@@ -74,32 +73,21 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ProfileCtrl', function($scope) {
-	function authDataCallback(authData) {
-  if (authData) {
-  //store the authData object in your service
-  console.log("Hello");
-  } else {
-   //clear the authData object in your service
-   //re-route user to logged out page
-    console.log("User is logged out");
-  }
-}
-	
-	$scope.profile = function(authData) {
-		var fbAuth = $firebaseAuth(fb);
-		var user = fb.child("users").child(authData.uid);
-		var _fullName = user.child("First Name")+" "+user.child("Second Name");
-		//$scope.fullName = "";
-		$scope.details = {
-	    fullName:
-		    function (userFullName) {
-			    return arguments.length ? (_fullName = userFullName) : _fullName
-		    }
-		}
-	}
+.controller('ProfileCtrl', function($scope, $stateParams, $firebaseObject, $ionicLoading) {
+	$scope.uid = $stateParams['uid'];
+	$scope.fullName = "No name";
 
+	$ionicLoading.show({
+		template: "<ion-spinner></ion-spinner>",
+	});
 
+	var user = $firebaseObject(fb.child("users").child($scope.uid));
+	user.$loaded().then(function() {
+		$scope.fullName = user["First Name"] + " " + user["Second Name"];
+		$ionicLoading.hide();
+	})
 })
+
+
 
 .controller('SearchCtrl', function($scope) {})

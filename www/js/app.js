@@ -44,7 +44,7 @@ TapReference.config(function($stateProvider, $urlRouterProvider) {
   // Each tab has its own nav history stack:
   
   .state('tab.profile', {
-    url: '/profile',
+    url: '/profile/:uid',
     views: {
       'profile': {
         templateUrl: 'templates/profile.html',
@@ -74,7 +74,7 @@ TapReference.config(function($stateProvider, $urlRouterProvider) {
   })
 
 	.state('tab.register', {
-		url: '/register?user',
+		url: '/register?mail',
 		params: {
 			pass: "",
 		},
