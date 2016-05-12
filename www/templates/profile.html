@@ -1,44 +1,48 @@
 <ion-view view-title="Profile">
   <ion-content class="padding">
 	<div ng-class="profileClass">
-	<div class="container">
-		<img class="profile-avatar" src="img/blank_avatar_small.png" ></img>
-		<div class="right-box">
-			<p>{{ fullName }}</p>
-			<p>Leitrim, Ireland</p>
-			<p>Status: Unemployed</p>
-		</div>
-	</div>
-	<br/>
-	<div class="container">
-		<div class="padding referral-section">
-		<h2>Referrals</h2>
-			<div class="referral-box">
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacus ipsum, mattis suscipit ex in, fermentum fermentum dui. Vestibulum lacinia placerat augue, nec tincidunt leo volutpat eget. Ut tincidunt sed enim sit amet cursus. Aliquam scelerisque, nulla eu suscipit sagittis, dui lorem rutrum tellus, a lacinia lorem elit ac lorem. Integer gravida nisi aliquet, molestie ligula ac, pulvinar lacus. Suspendisse auctor urna ac mollis tristique. Etiam eleifend sem odio, nec efficitur urna condimentum nec.</p>
-			<p>Nunc ac eros suscipit, aliquam nibh nec, commodo elit. Nulla quis posuere tortor. Vestibulum mollis nibh et ipsum pellentesque, at placerat nulla tincidunt. Sed a dolor suscipit sem mollis blandit at sit amet odio. Nam ut nibh sed purus convallis vehicula. Morbi a nulla varius, volutpat ex non, varius enim. Nullam efficitur mollis eros, vitae ullamcorper nunc viverra ac. Mauris cursus lorem elit, vel ullamcorper lacus volutpat at. Sed eget dapibus nisi, ac convallis est. Mauris sit amet neque elit. Vestibulum euismod urna vel enim suscipit aliquet.</p>
-			</div>
-<p>Written by:</p>
-			<div class="referrer-box">
-			<img class="search-avatar" src="img/blank_avatar_small-alt.png" ></img>
-			
-			<div class="right-box padding-left">
-				
-				<p>Conor Gallagher</p>
+		<div class="container">
+			<img class="profile-avatar" src="img/blank_avatar_small.png" ></img>
+			<div class="right-box">
+				<p>{{ fullName }}</p>
 				<p>Leitrim, Ireland</p>
-				<p>Rank 5 - Manager</p>
-				<p>Organization - Ergosoft Ireland</p>
-			</div>
-			
+				<p>Status: Unemployed</p>
 			</div>
 		</div>
-		
 		<br/>
 		<div class="container">
-		<h2 class="text-center">Send a Referral</h2>
-			<textarea class="write-box" rows="12" cols="50"></textarea>
-			<button class="button button-block button-positive" ng-click="login(username, password)" type="submit">Submit</button>
+			<div class="padding referral-section">
+			<h2>Referrals</h2>
+				<div class="referral-box">
+				<p>Jeremy is an excellent employee whom I've had the pleasure of working along with for the roughly three years now. Jeremy has proved his resourcefulness time and again in the workplace and isn't reluctant to take troublesome tasks head on. On many ocassions he has shown us his ability to learn new things relatively quickly. Despite having only basic experience with linux he was able to help us set up a virtual host on the system within a few hours. He is especially gifted when it comes to programming in java and is able to write complex pieces of code with ease. Whatever task I assigned him to, he always completed ahead of schedule. I thoroughly recommend Jeremy to others out there looking for an experienced individual with this kind of skill set.</p>
+				</div>
+				<p>Written by:</p>
+				<div class="referrer-box">
+				<img class="search-avatar" src="img/blank_avatar_small-alt.png" ></img>
+				
+				<div class="right-box padding-left">
+					
+					<p>Conor Gallagher</p>
+					<p>Leitrim, Ireland</p>
+					<p>Rank 5 - Manager</p>
+					<p>Organization - Ergosoft Ireland</p>
+				</div>
+				
+				</div>
+			</div>
+			
+			<br/>
+			<div class="container">
+				<h2 class="text-center">Send a Referral</h2>
+				<form name="referralForm" ng-model-options="{ getterSetter: true }">
+					<textarea class="write-box" ng-model="form.referralText" rows="12" cols="50"></textarea>
+					<label class="item">
+						<button class="button button-block button-positive" ng-click="refer()" type="submit">Submit</button>
+					</label>
+				</form>
+			</div>
+
 		</div>
-	</div>
 	</div>
   </ion-content>
 </ion-view>

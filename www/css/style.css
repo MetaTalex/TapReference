@@ -1,4 +1,28 @@
 /* Empty. Add your own CSS if you like */
+.background{
+background-color:#000080;
+}
+
+.compressor{
+width:95%;
+}
+
+.center-txt{
+text-align: center;
+}
+
+.inner {
+width: 800px;
+border:1px solid black;
+ }
+
+.logo{
+   display:block;
+   margin:0 auto;
+   width:200px;
+ }
+
+
 .container{
 
 }

@@ -36,6 +36,10 @@ angular.module('starter.controllers', [])
 			user.child("Email").set(email);
 			user.child("First Name").set(firstName);
 			user.child("Second Name").set(secondName);
+			//fb.child("referrals").child(authData.uid);
+			//var referrals = fb.child("referrals").child(authData.uid);
+			//referrals.child("Anything").set("words");
+			
 			$state.go("tab.profile", { uid: authData.uid });
 			}).catch(function(error) {
 				console.error("ERROR " + error);
@@ -76,7 +80,11 @@ angular.module('starter.controllers', [])
 .controller('ProfileCtrl', function($scope, $stateParams, $firebaseObject, $ionicLoading) {
 	$scope.uid = $stateParams['uid'];
 	$scope.fullName = "No name";
-	$scope.profileClass = "blur"
+	//wip
+	//$scope.displayedReferralText[] = "";
+	//$scope.referralText = "";
+	$scope.profileClass = "blur";
+	
 
 	$ionicLoading.show({
 		template: "<ion-spinner></ion-spinner>",
@@ -87,7 +95,30 @@ angular.module('starter.controllers', [])
 		$scope.fullName = user["First Name"] + " " + user["Second Name"];
 		$ionicLoading.hide();
 		$scope.profileClass = "";
-	})
+	});
+	
+	
+	//referral submit button function
+	//needs to send the ref to somewhere 
+	$scope.refer = function() {
+		if (fb.getAuth() == null)
+		return;
+
+		var pendingReferral = fb.child("pendingReferrals").child($scope.uid).child(fb.getAuth().uid);
+		pendingReferral.child("referralText").set($scope.referralText);
+		
+		console.log($scope.referralText)
+	};
+	
+	
+		$scope.referralText = "";
+		$scope.form = {
+			referralText:
+			function (value) {
+				return arguments.length ? $scope.referralText = value : $scope.referralText
+			}
+		};
+	
 })
 
 

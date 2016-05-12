@@ -1,6 +1,9 @@
 <ion-view view-title="Login">
   <ion-content class="padding">
-  <br/>
+
+		<img class="logo" src="img/TapReference_logo.png" ></img>
+		<h2 class="center-txt">Welcome to TapReference!</h2>
+		<p class="center-txt">Please login or register your account.</p>
       <div class="list">
         <label class="item item-input">
           <input type="text" ng-model="email" placeholder="Email" />
@@ -15,6 +18,7 @@
 		<button class="button button-block button-balanced" nav-direction="forward" ui-sref="tab.register({mail: email, pass: password})" type="submit">Register</button>
         </label>
       </div>
+
   </ion-content>
 </ion-view>
 
