@@ -38,7 +38,8 @@ TapReference.config(function($stateProvider, $urlRouterProvider) {
     .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+		    templateUrl: 'templates/tabs.html',
+		    controller: 'TabCtrl',
   })
 
   // Each tab has its own nav history stack:
@@ -49,8 +50,9 @@ TapReference.config(function($stateProvider, $urlRouterProvider) {
       'profile': {
         templateUrl: 'templates/profile.html',
         controller: 'ProfileCtrl'
-      }
-    }
+      },
+		reload:true
+    },
   })
 
   .state('tab.search', {
@@ -65,12 +67,14 @@ TapReference.config(function($stateProvider, $urlRouterProvider) {
 	
 .state('tab.login', {
     url: '/login',
+      cache: false,
     views: {
       'login': {
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl'
-      }
-    }
+      },
+		reload:true
+    },
   })
 
 	.state('tab.register', {

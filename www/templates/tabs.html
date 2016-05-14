@@ -6,20 +6,21 @@ navigation history that also transitions its views in and out.
 <ion-tabs class="tabs-icon-top tabs-color-active-positive">
 
   <!-- login Tab -->
-  <ion-tab title="Login" icon-off="ion-unlocked" icon-on="ion-unlocked" href="#/tab/login">
+  <ion-tab title="Login" icon-off="ion-unlocked" hidden="{{ isLoggedIn() }}"
+	  icon-on="ion-unlocked" href="#/tab/login">
    <ion-nav-view name="login"></ion-nav-view>
   </ion-tab>
   <!-- Registration Tab -->
-  <ion-tab title="Register" hidden="true" href="#/tab/register">
+  <ion-tab title="Register" hidden="{{ !isOn('tab.register') }}" icon-on="ion-unlocked" href="#/tab/register">
    <ion-nav-view name="register"></ion-nav-view>
   </ion-tab>
   <!-- Profile Tab -->
-  <ion-tab title="Profile" icon-off="ion-person" icon-on="ion-person" href="#/tab/profile">
+  <ion-tab title="Profile" icon-off="ion-person" hidden="{{ !isLoggedIn() && !isOn('tab.profile') }}" icon-on="ion-person" href="#/tab/profile" >
     <ion-nav-view name="profile"></ion-nav-view>
   </ion-tab>
 
   <!-- Search Tab -->
-  <ion-tab title="Search" icon-off="ion-search" icon-on="ion-search" href="#/tab/search">
+  <ion-tab title="Search" icon-off="ion-search" icon-on="ion-search" href="#/tab/search" >
     <ion-nav-view name="tab-search"></ion-nav-view>
   </ion-tab>
 

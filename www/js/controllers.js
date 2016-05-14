@@ -2,6 +2,7 @@ angular.module('starter.controllers', [])
 
 
 .controller('LoginCtrl', function($scope, $firebaseAuth, $state) {
+
     $scope.login = function(email, password) {
         var fbAuth = $firebaseAuth(fb);
         fbAuth.$authWithPassword({
@@ -22,30 +23,28 @@ angular.module('starter.controllers', [])
 .controller('RegisterCtrl', function($scope, $firebaseAuth, $state, $stateParams) {
     $scope.register = function() {
         var fbAuth = $firebaseAuth(fb);
-	with ($scope) {
-		if (password != confirmPassword)
-			throw "Passwords don't match"
-		fbAuth.$createUser({email: email, password: password}).then(function() {
-		    return fbAuth.$authWithPassword({
-			email: email,
-			password: password
-		    });
-		}).then(function(authData) {
+	if (password != confirmPassword)
+		throw "Passwords don't match"
+	fbAuth.$createUser({email: email, password: password}).then(function() {
+	    return fbAuth.$authWithPassword({
+		email: email,
+		password: password
+	    });
+	}).then(function(authData) {
 
-			var user = fb.child("users").child(authData.uid);
-			user.child("Email").set(email);
-			user.child("First Name").set(firstName);
-			user.child("Second Name").set(secondName);
-			//fb.child("referrals").child(authData.uid);
-			//var referrals = fb.child("referrals").child(authData.uid);
-			//referrals.child("Anything").set("words");
-			
-			$state.go("tab.profile", { uid: authData.uid });
-			}).catch(function(error) {
-				console.error("ERROR " + error);
-			});
+		var user = fb.child("users").child(authData.uid);
+		user.child("Email").set($scope.email);
+		user.child("First Name").set($scope.firstName);
+		user.child("Second Name").set($scope.secondName);
+		//fb.child("referrals").child(authData.uid);
+		//var referrals = fb.child("referrals").child(authData.uid);
+		//referrals.child("Anything").set("words");
+		
+		$state.go("tab.profile", { uid: authData.uid });
+		}).catch(function(error) {
+			console.error("ERROR " + error);
+		});
 
-	}
     }
 	$scope.email = $stateParams['mail']
 	$scope.password = $stateParams['pass']
@@ -77,8 +76,22 @@ angular.module('starter.controllers', [])
 
 })
 
+<<<<<<< Updated upstream
 .controller('ProfileCtrl', function($scope, $stateParams, $firebaseObject, $ionicLoading, $ionicModal) {
 	$scope.uid = $stateParams['uid'];
+=======
+.controller('ProfileCtrl', function($scope, $state, $stateParams, $firebaseObject, $ionicLoading) {
+	$scope.showtab =true ;
+	if ($stateParams['uid'] != "")
+		$scope.uid = $stateParams['uid'];
+	else if (fb.getAuth() != null)
+		$scope.uid = fb.getAuth().uid;
+	else {
+		$state.go("tab.login");
+		return;
+	}
+				
+>>>>>>> Stashed changes
 	$scope.fullName = "No name";
 	//this might be wrong I'm totally hypothesizing here
 	var incomingReferral;
@@ -88,17 +101,26 @@ angular.module('starter.controllers', [])
 	$scope.profileClass = "blur";
 	
 
+
 	$ionicLoading.show({
 		template: "<ion-spinner></ion-spinner>",
 	});
 
 	var user = $firebaseObject(fb.child("users").child($scope.uid));
 	user.$loaded().then(function() {
+		$scope.showtab = false;
 		$scope.fullName = user["First Name"] + " " + user["Second Name"];
 		$ionicLoading.hide();
 		$scope.profileClass = "";
+
+		var thisUser = fb.getAuth().uid;
+		var mpr = fb.child("pendingReferrals").child(thisUser);
+		mpr.once("value", function (snapshot) {
+			if (snapshot.hasChildren) {
+			}
+		});
+
 	});
-	
 	
 	//referral submit button function
 	//needs to send the referral into the appropriate area of the pendingReferrals node in Firebase 
@@ -151,3 +173,13 @@ angular.module('starter.controllers', [])
 
 
 .controller('SearchCtrl', function($scope) {})
+
+.controller('TabCtrl', function($scope, $state) {
+	$scope.isOn = function(tab) {
+		console.log($state.current)
+		return $state.current['name'] == tab;
+	}
+	$scope.isLoggedIn = function() {
+		return fb.getAuth() != null;
+	}
+})
