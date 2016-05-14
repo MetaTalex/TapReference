@@ -77,9 +77,11 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ProfileCtrl', function($scope, $stateParams, $firebaseObject, $ionicLoading) {
+.controller('ProfileCtrl', function($scope, $stateParams, $firebaseObject, $ionicLoading, $ionicModal) {
 	$scope.uid = $stateParams['uid'];
 	$scope.fullName = "No name";
+	//this might be wrong I'm totally hypothesizing here
+	var incomingReferral;
 	//wip
 	//$scope.displayedReferralText[] = "";
 	//$scope.referralText = "";
@@ -99,7 +101,7 @@ angular.module('starter.controllers', [])
 	
 	
 	//referral submit button function
-	//needs to send the ref to somewhere 
+	//needs to send the referral into the appropriate area of the pendingReferrals node in Firebase 
 	$scope.refer = function() {
 		if (fb.getAuth() == null)
 		return;
@@ -110,14 +112,39 @@ angular.module('starter.controllers', [])
 		console.log($scope.referralText)
 	};
 	
+	var thisUser = fb.getAuth().uid
+	console.log(thisUser);
+	//var pendingUser = fb.child("pendingReferrals").child(fb.getAuth().uid);
+	$scope.referCheck= function(){
+		if (fb.getAuth() == null)
+		return;
+
+			  fb.child("pendingReferrals").child(thisUser).limitToFirst(1).once("value", function(snapshot) {
+			  snapshot.forEach(function(childSnapshot) {
+				var a = childSnapshot.key();
+				console.log(a);
+				});
+			  });
+	};
+
+	$ionicModal.fromTemplateUrl('templates/pendRefModal.html', {
+		scope: $scope
+		}).then(function(modal) {
+			$scope.modal = modal;
+		});
+	//wot i'm trying to do right now, store the data to a global variable, display the global variable as {{incomingReferral}} and then let
+	//user to decide whether to delete it or save it (technically in both instances it's getting deleted in pendingReferrals anyway)
+	//also technically this might come first but try to combine elements of the referCheck method w/ the modal yoke so that
+	//when we load the modal it know to set the incomingReferral var to the referralText we'll be retrieving.
+	//Note to self: haven't got referralText's val yet just the node that precedes it
 	
-		$scope.referralText = "";
-		$scope.form = {
-			referralText:
-			function (value) {
-				return arguments.length ? $scope.referralText = value : $scope.referralText
-			}
-		};
+	$scope.referralText = "";
+	$scope.form = {
+		referralText:
+		function (value) {
+			return arguments.length ? $scope.referralText = value : $scope.referralText
+		}
+	};
 	
 })
 

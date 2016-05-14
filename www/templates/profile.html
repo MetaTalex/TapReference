@@ -39,6 +39,12 @@
 					<label class="item">
 						<button class="button button-block button-positive" ng-click="refer()" type="submit">Submit</button>
 					</label>
+					<label class="item">
+						<button class="button button-block button-positive" ng-click="referCheck()" type="submit">Referral check</button>
+					</label>
+					<label class="item">
+						<button class="button button-block button-positive" ng-click="modal.show()" type="submit">Modal</button>
+					</label>
 				</form>
 			</div>
 
@@ -46,3 +52,21 @@
 	</div>
   </ion-content>
 </ion-view>
+
+
+<!---test modal-->
+
+<script id="templates/pendRefModal.html" type="text/ng-template">
+	<ion-modal-view>
+		<ion-content>
+			<p>{{incomingReferral}}</p>
+			<label class="item">
+				<button class="button button-block button-calm" ng-click="acceptRef()" type="submit">Accept</button>
+			</label>
+			<label class="item">
+				<button class="button button-block button-assertive" ng-click="declineRef()" type="submit">Decline</button>
+			</label>
+
+		</ion-content>
+	</ion-modal-view>
+</script>
