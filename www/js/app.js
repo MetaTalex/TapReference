@@ -39,7 +39,7 @@ TapReference.config(function($stateProvider, $urlRouterProvider) {
     url: '/tab',
     abstract: true,
 		    templateUrl: 'templates/tabs.html',
-		    controller: 'TabCtrl',
+		    controller: 'NavCtrl',
   })
 
   // Each tab has its own nav history stack:

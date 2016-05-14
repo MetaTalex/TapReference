@@ -1,5 +1,32 @@
 angular.module('starter.controllers', [])
 
+.controller('NavCtrl', function($scope, $state, $ionicPopover) {
+	$scope.referrals = null;
+	$scope.notifications = null;
+	$ionicPopover.fromTemplateUrl('templates/notifications.html', {
+		scope: $scope
+	}).then(function(popover) {
+		$scope.notifications = popover;
+	});
+
+	$scope.openNotifications = function($event) {
+		$scope.notifications.show($event);
+	}
+
+	$scope.classLoggedIn = function() {
+		return $scope.isLoggedIn() ? "ng-show" : "ng-hide";
+	}
+	$scope.logOut = function() {
+		console.log(fb.unauth());
+		$state.go("tab.login");
+	}
+	$scope.isOn = function(tab) {
+		return $state.current['name'] == tab;
+	}
+	$scope.isLoggedIn = function() {
+		return fb.getAuth() != null;
+	}
+})
 
 .controller('LoginCtrl', function($scope, $firebaseAuth, $state) {
 	if (fb.getAuth())
@@ -124,64 +151,56 @@ angular.module('starter.controllers', [])
 		console.log($scope.referralText)
 	};
 	
-	var thisUser = fb.getAuth().uid
-	console.log(thisUser);
-	//var pendingUser = fb.child("pendingReferrals").child(fb.getAuth().uid);
-	$scope.referCheck= function(){
-		if (fb.getAuth() == null)
-		return;
+	if (fb.getAuth()) {
+		var thisUser = fb.getAuth().uid
+		console.log(thisUser);
+		//var pendingUser = fb.child("pendingReferrals").child(fb.getAuth().uid);
+		$scope.referCheck= function(){
+			if (fb.getAuth() == null)
+			return;
 
-			  fb.child("pendingReferrals").child(thisUser).limitToFirst(1).once("value", function(snapshot) {
-			  snapshot.forEach(function(childSnapshot) {
-				var a = childSnapshot.key();
-				console.log(a);
-				});
-			  });
-	};
+				  fb.child("pendingReferrals").child(thisUser).limitToFirst(1).once("value", function(snapshot) {
+				  snapshot.forEach(function(childSnapshot) {
+					var a = childSnapshot.key();
+					console.log(a);
+					});
+				  });
+		};
 
-	$ionicModal.fromTemplateUrl('templates/pendRefModal.html', {
-		scope: $scope
-		}).then(function(modal) {
-			$scope.modal = modal;
-			
+		$ionicModal.fromTemplateUrl('templates/pendRefModal.html', {
+			scope: $scope
+			}).then(function(modal) {
+				$scope.modal = modal;
+				
 
-/* 			  fb.child("pendingReferrals").child(thisUser).limitToFirst(1).once("value", function(snapshot) {
-			  snapshot.forEach(function(childSnapshot) {
-				var a = childSnapshot.key();
-				console.log(a);
-				$scope.incomingReferral = a;
-				});
-			  });  */
+	/* 			  fb.child("pendingReferrals").child(thisUser).limitToFirst(1).once("value", function(snapshot) {
+				  snapshot.forEach(function(childSnapshot) {
+					var a = childSnapshot.key();
+					console.log(a);
+					$scope.incomingReferral = a;
+					});
+				  });  */
 
-		});
-	
-	
-		//$scope.incomingReferral;
-	//wot i'm trying to do right now, store the data to a global variable, display the global variable as {{incomingReferral}} and then let
-	//user to decide whether to delete it or save it (technically in both instances it's getting deleted in pendingReferrals anyway)
-	//also technically this might come first but try to combine elements of the referCheck method w/ the modal yoke so that
-	//when we load the modal it know to set the incomingReferral var to the referralText we'll be retrieving.
-	//Note to self: haven't got referralText's val yet just the node that precedes it
-	
-	$scope.referralText = "";
-	$scope.form = {
-		referralText:
-		function (value) {
-			return arguments.length ? $scope.referralText = value : $scope.referralText
-		}
-	};
-	
+			});
+		
+		
+			//$scope.incomingReferral;
+		//wot i'm trying to do right now, store the data to a global variable, display the global variable as {{incomingReferral}} and then let
+		//user to decide whether to delete it or save it (technically in both instances it's getting deleted in pendingReferrals anyway)
+		//also technically this might come first but try to combine elements of the referCheck method w/ the modal yoke so that
+		//when we load the modal it know to set the incomingReferral var to the referralText we'll be retrieving.
+		//Note to self: haven't got referralText's val yet just the node that precedes it
+		
+		$scope.referralText = "";
+		$scope.form = {
+			referralText:
+			function (value) {
+				return arguments.length ? $scope.referralText = value : $scope.referralText
+			}
+		};
+	}
 })
 
 
 
 .controller('SearchCtrl', function($scope) {})
-
-.controller('TabCtrl', function($scope, $state) {
-	$scope.isOn = function(tab) {
-		return $state.current['name'] == tab;
-	}
-	$scope.isLoggedIn = function() {
-		return fb.getAuth() != null;
-	}
-})
