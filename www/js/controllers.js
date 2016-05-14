@@ -92,7 +92,7 @@ angular.module('starter.controllers', [])
 				
 	$scope.fullName = "No name";
 	//this might be wrong I'm totally hypothesizing here
-	var incomingReferral;
+	$scope.incomingReferral;
 	//wip
 	//$scope.displayedReferralText[] = "";
 	//$scope.referralText = "";
@@ -143,7 +143,20 @@ angular.module('starter.controllers', [])
 		scope: $scope
 		}).then(function(modal) {
 			$scope.modal = modal;
+			
+
+/* 			  fb.child("pendingReferrals").child(thisUser).limitToFirst(1).once("value", function(snapshot) {
+			  snapshot.forEach(function(childSnapshot) {
+				var a = childSnapshot.key();
+				console.log(a);
+				$scope.incomingReferral = a;
+				});
+			  });  */
+
 		});
+	
+	
+		//$scope.incomingReferral;
 	//wot i'm trying to do right now, store the data to a global variable, display the global variable as {{incomingReferral}} and then let
 	//user to decide whether to delete it or save it (technically in both instances it's getting deleted in pendingReferrals anyway)
 	//also technically this might come first but try to combine elements of the referCheck method w/ the modal yoke so that
