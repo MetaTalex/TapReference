@@ -3,7 +3,7 @@
       <h1 class="title">Pending Referrals</h1>
     </ion-header-bar>
     <ion-content>
-	<div ng-repeat="(uid, referral) in referrals">
+	<div class = "pending-ref-box" ng-repeat="(uid, referral) in referrals" ng-click="" >
 		<h3>{{ referral['authorName'] }}</h3>
 		<h5>({{ referral['authorEmail'] }}) | {{ referral['timestamp'] | date }}</h5>
 		<h4>{{ referral['referralText'] | limitTo:129 }} </h3>
