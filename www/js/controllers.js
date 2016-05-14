@@ -9,20 +9,45 @@ angular.module('starter.controllers', [])
 		$scope.notifications = popover;
 	});
 
+	function refreshReferrals() {
+		if ($scope.referrals == null) {
+			var thisUser = fb.getAuth().uid
+			if (fb.getAuth() == null)
+			return;
+			fb.child("pendingReferrals").child(thisUser).limitToFirst(5).once("value", function(snapshot) {
+				$scope.referrals = {};
+				snapshot.forEach(function(refSnapshot) {
+					var refObject = refSnapshot.val();
+					fb.child("users").child(refSnapshot.key()).once("value", function(userSnapshot) {
+						var userObject = userSnapshot.val();
+						refObject['authorName'] = userObject['First Name'] + " " + userObject['Second Name'];
+						refObject['authorEmail'] = userObject['Email'];
+						console.log(refObject);
+						$scope.referrals[refSnapshot.key()] = refObject;
+					});
+				});
+			});
+		}
+	}
+
 	$scope.openNotifications = function($event) {
+		refreshReferrals();
 		$scope.notifications.show($event);
 	}
 
 	$scope.classLoggedIn = function() {
 		return $scope.isLoggedIn() ? "ng-show" : "ng-hide";
 	}
+
 	$scope.logOut = function() {
 		console.log(fb.unauth());
 		$state.go("tab.login");
 	}
+
 	$scope.isOn = function(tab) {
 		return $state.current['name'] == tab;
 	}
+
 	$scope.isLoggedIn = function() {
 		return fb.getAuth() != null;
 	}
