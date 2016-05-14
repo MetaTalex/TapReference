@@ -1,4 +1,14 @@
 /* Empty. Add your own CSS if you like */
+
+
+.ref-popover{
+height:70%;
+}
+
+.pending-ref-box:hover {
+background-color: #cce5ff;
+}
+
 .background{
 background-color:#000080;
 }
