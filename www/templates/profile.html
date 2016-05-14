@@ -13,19 +13,21 @@
 		<div class="container">
 			<div class="padding referral-section">
 			<h2>Referrals</h2>
-				<div class="referral-box">
-				<p>Jeremy is an excellent employee whom I've had the pleasure of working along with for the roughly three years now. Jeremy has proved his resourcefulness time and again in the workplace and isn't reluctant to take troublesome tasks head on. On many ocassions he has shown us his ability to learn new things relatively quickly. Despite having only basic experience with linux he was able to help us set up a virtual host on the system within a few hours. He is especially gifted when it comes to programming in java and is able to write complex pieces of code with ease. Whatever task I assigned him to, he always completed ahead of schedule. I thoroughly recommend Jeremy to others out there looking for an experienced individual with this kind of skill set.</p>
-				</div>
-				<p>Written by:</p>
-				<div class="referrer-box">
-				<img class="search-avatar" src="img/blank_avatar_small-alt.png" ></img>
-				
-				<div class="right-box padding-left">
+
+				<div ng-repeat="(uid, referral) in referrals">
+					<div class="referral-box">
+						<p>{{ referral['referralText'] }} </p>
+					</div>
+					<p>Written by:</p>
+					<div class="referrer-box">
+					<img class="search-avatar" src="img/blank_avatar_small-alt.png" ></img>
 					
-					<p>Conor Gallagher</p>
-					<p>Leitrim, Ireland</p>
-					<p>Rank 5 - Manager</p>
-					<p>Organization - Ergosoft Ireland</p>
+					<div class="right-box padding-left">
+						
+						<p>{{ referral['authorName'] }}</p>
+						<p>({{ referral['authorEmail'] }})</p>
+						<p> on {{ referral['timestamp'] | date }}</p>
+					</div>
 				</div>
 				
 				</div>

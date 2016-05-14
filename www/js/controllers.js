@@ -22,8 +22,8 @@ angular.module('starter.controllers', [])
 						var userObject = userSnapshot.val();
 						refObject['authorName'] = userObject['First Name'] + " " + userObject['Second Name'];
 						refObject['authorEmail'] = userObject['Email'];
-						console.log(refObject);
 						$scope.referrals[refSnapshot.key()] = refObject;
+						$scope.$apply();
 					});
 				});
 			});
@@ -132,12 +132,12 @@ angular.module('starter.controllers', [])
 
 .controller('ProfileCtrl', function($scope, $state, $stateParams, $firebaseObject, $ionicLoading, $ionicModal) {
 	$scope.uid = $stateParams['uid'];
+	$scope.referrals = {};
 	if ($stateParams['uid'] != "")
 		$scope.uid = $stateParams['uid'];
 	else if (fb.getAuth() != null)
 		$scope.uid = fb.getAuth().uid;
 	else {
-		console.log("no login data, moving");
 		$state.go("tab.login");
 		return;
 	}
@@ -156,10 +156,24 @@ angular.module('starter.controllers', [])
 		template: "<ion-spinner></ion-spinner>",
 	});
 
+	function updateReferrals(snapshot) {
+		var refObject = snapshot.val();
+		fb.child("users").child(snapshot.key()).once("value", function(userSnapshot) {
+			var userObject = userSnapshot.val();
+			refObject['authorName'] = userObject['First Name'] + " " + userObject['Second Name'];
+			refObject['authorEmail'] = userObject['Email'];
+			$scope.referrals[snapshot.key()] = refObject;
+			$scope.$apply();
+		});
+	}
+
 	var user = $firebaseObject(fb.child("users").child($scope.uid));
+	var recentReferrals = fb.child("referrals").child($scope.uid).orderByChild("timestamp").limitToLast(5);
 	user.$loaded().then(function() {
 		$scope.showtab = false;
 		$scope.fullName = user["First Name"] + " " + user["Second Name"];
+		recentReferrals.on("child_added", updateReferrals);
+		recentReferrals.on("child_changed", updateReferrals);
 		$ionicLoading.hide();
 		$scope.profileClass = "";
 	});
@@ -172,8 +186,6 @@ angular.module('starter.controllers', [])
 
 		var pendingReferral = fb.child("pendingReferrals").child($scope.uid).child(fb.getAuth().uid);
 		pendingReferral.child("referralText").set($scope.referralText);
-		
-		console.log($scope.referralText)
 	};
 	
 	if (fb.getAuth()) {
