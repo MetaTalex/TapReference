@@ -2,6 +2,8 @@ angular.module('starter.controllers', [])
 
 
 .controller('LoginCtrl', function($scope, $firebaseAuth, $state) {
+	if (fb.getAuth())
+             $state.go("tab.profile", { uid: fb.getAuth().uid })
 
     $scope.login = function(email, password) {
         var fbAuth = $firebaseAuth(fb);
@@ -83,6 +85,7 @@ angular.module('starter.controllers', [])
 	else if (fb.getAuth() != null)
 		$scope.uid = fb.getAuth().uid;
 	else {
+		console.log("no login data, moving");
 		$state.go("tab.login");
 		return;
 	}
@@ -107,14 +110,6 @@ angular.module('starter.controllers', [])
 		$scope.fullName = user["First Name"] + " " + user["Second Name"];
 		$ionicLoading.hide();
 		$scope.profileClass = "";
-
-		var thisUser = fb.getAuth().uid;
-		var mpr = fb.child("pendingReferrals").child(thisUser);
-		mpr.once("value", function (snapshot) {
-			if (snapshot.hasChildren) {
-			}
-		});
-
 	});
 	
 	//referral submit button function
@@ -171,7 +166,6 @@ angular.module('starter.controllers', [])
 
 .controller('TabCtrl', function($scope, $state) {
 	$scope.isOn = function(tab) {
-		console.log($state.current)
 		return $state.current['name'] == tab;
 	}
 	$scope.isLoggedIn = function() {
