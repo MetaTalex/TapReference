@@ -76,12 +76,8 @@ angular.module('starter.controllers', [])
 
 })
 
-<<<<<<< Updated upstream
-.controller('ProfileCtrl', function($scope, $stateParams, $firebaseObject, $ionicLoading, $ionicModal) {
+.controller('ProfileCtrl', function($scope, $state, $stateParams, $firebaseObject, $ionicLoading, $ionicModal) {
 	$scope.uid = $stateParams['uid'];
-=======
-.controller('ProfileCtrl', function($scope, $state, $stateParams, $firebaseObject, $ionicLoading) {
-	$scope.showtab =true ;
 	if ($stateParams['uid'] != "")
 		$scope.uid = $stateParams['uid'];
 	else if (fb.getAuth() != null)
@@ -91,7 +87,6 @@ angular.module('starter.controllers', [])
 		return;
 	}
 				
->>>>>>> Stashed changes
 	$scope.fullName = "No name";
 	//this might be wrong I'm totally hypothesizing here
 	var incomingReferral;
