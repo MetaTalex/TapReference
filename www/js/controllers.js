@@ -77,12 +77,12 @@ angular.module('starter.controllers', [])
 .controller('RegisterCtrl', function($scope, $firebaseAuth, $state, $stateParams) {
     $scope.register = function() {
         var fbAuth = $firebaseAuth(fb);
-	if (password != confirmPassword)
+	if ($scope.password != $scope.confirmPassword)
 		throw "Passwords don't match"
-	fbAuth.$createUser({email: email, password: password}).then(function() {
+	fbAuth.$createUser({email: $scope.email, password: $scope.password}).then(function() {
 	    return fbAuth.$authWithPassword({
-		email: email,
-		password: password
+		email: $scope.email,
+		password: $scope.password
 	    });
 	}).then(function(authData) {
 

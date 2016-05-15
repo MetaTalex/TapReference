@@ -1,12 +1,15 @@
-  <ion-popover-view>
+  <ion-popover-view class="ref-popover">
     <ion-header-bar>
       <h1 class="title">Pending Referrals</h1>
     </ion-header-bar>
     <ion-content>
-	<div class = "pending-ref-box" ng-repeat="(uid, referral) in referrals" ng-click="" >
-		<h3>{{ referral['authorName'] }}</h3>
-		<h5>({{ referral['authorEmail'] }}) | {{ referral['timestamp'] | date }}</h5>
-		<h4>{{ referral['referralText'] | limitTo:129 }} </h3>
+	<div ng-repeat="(uid, referral) in referrals" ng-click="" >
+		<div class="pending-ref-box">
+			<h3>{{ referral['authorName'] }}</h3>
+			<h5>({{ referral['authorEmail'] }}) | {{ referral['timestamp'] | date }}</h5>
+			<h4>{{ referral['referralText'] | limitTo:129 }} </h3>
+		</div>
+		<hr class="hr-fancy" />
 	</div ng-repeat>
     </ion-content>
   </ion-popover-view>

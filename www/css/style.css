@@ -1,8 +1,16 @@
 /* Empty. Add your own CSS if you like */
 
 
+
+.hr-fancy{
+border-top: 1px dashed #f2f2f2;
+margin: 1em 0em;
+}
+
+
 .ref-popover{
 height:70%;
+width: 50%;
 }
 
 .pending-ref-box:hover {
