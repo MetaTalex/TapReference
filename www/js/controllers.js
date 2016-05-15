@@ -172,10 +172,10 @@ angular.module('starter.controllers', [])
 	user.$loaded().then(function() {
 		$scope.showtab = false;
 		$scope.fullName = user["First Name"] + " " + user["Second Name"];
-		recentReferrals.on("child_added", updateReferrals);
-		recentReferrals.on("child_changed", updateReferrals);
 		$ionicLoading.hide();
 		$scope.profileClass = "";
+		recentReferrals.on("child_added", updateReferrals);
+		recentReferrals.on("child_changed", updateReferrals);
 	});
 	
 	//referral submit button function
@@ -240,4 +240,55 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('SearchCtrl', function($scope) {})
+.controller('SearchCtrl', function($scope, $state) {
+	var term = "", lastTerm = "";
+	var users = { }
+	$scope.results = { }
+
+	var dbUsers = fb.child("users");
+	dbUsers.on("child_added", updateUsers);
+	dbUsers.on("child_changed", updateUsers);
+	dbUsers.on("child_removed", removeUser);
+
+	$scope.viewProfile = function(uid) {
+             $state.go("tab.profile", { uid: uid })
+	}
+
+	function updateUsers(snapshot) {
+		users[snapshot.key()] = snapshot.val();
+		applyFilter();
+	}
+
+	function removeUser(snapshot) {
+		delete users[snapshot.key()];
+		applyFilter();
+	}
+
+	function applyFilter() {
+		$scope.results = { };
+		var terms = term.toLowerCase().split(' ')
+		for (var k in users) {
+			var match = true;
+			for (var i in terms) {
+				if (!(users[k]['First Name'].toLowerCase().match(terms[i]) ||
+					users[k]['Second Name'].toLowerCase().match(terms[i]))) {
+					match = false;
+					break;
+				}
+			}
+			if (match)
+				$scope.results[k] = users[k];
+		}
+		$scope.$apply();
+	}
+
+	$scope.search = function(value) {
+		if (arguments.length > 0) {
+			term = value;
+			if (term.length >= 3)
+				applyFilter();
+		}
+		return term;
+	}
+
+})

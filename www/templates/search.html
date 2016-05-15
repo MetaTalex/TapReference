@@ -2,87 +2,19 @@
   <ion-content class="padding">
 
 	    <label class="item item-input">
-          <input type="text" ng-model="search" placeholder ="John Smith"/>
+		    <input type="text" ng-model-options="{ getterSetter: true }" ng-model="search" placeholder ="John Smith"/>
         </label>
 		<br/>
 	<div class="container">
-		<div class="user-container">
-			<div class="img-box">
-				<img class="search-avatar" src="img/blank_avatar_small.png" ></img>
-			</div>
-			<div class="details-box padding-left">
-				<p>Katherine Dawson</p>
-				<p>Austin Texas</p>
-				<p>Status: Unemployed </p>
-			</div>
+		<div ng-repeat="(uid, user) in results" class="user-container" ng-click="viewProfile('{{ uid }}')">
+				<div class="img-box">
+					<img class="search-avatar" src="img/blank_avatar_small.png" ></img>
+				</div>
+				<div class="details-box padding-left">
+					<p>{{ user['First Name'] }} {{ user['Second Name'] }}</p>
+					<p>{{ user['Email'] }}</p>
+				</div>
 		</div>
-		<br/>
-		<div class="user-container">
-			<div class="img-box">
-				<img class="search-avatar" src="img/blank_avatar_small.png" ></img>
-			</div>
-			<div class="details-box padding-left">
-				<p>Billie Conner</p>
-				<p>London, England</p>
-				<p>Status: Employed - Data Analyst</p>
-			</div>
-		</div>
-		<br/>
-		<div class="user-container">
-			<div class="img-box">
-				<img class="search-avatar" src="img/blank_avatar_small.png" ></img>
-			</div>
-			<div class="details-box padding-left">
-				<p>Clyde Murray</p>
-				<p>Dublin, Ireland</p>
-				<p>Status: Employed - Game Designer</p>
-			</div>
-		</div>
-		<br/>
-		<div class="user-container">
-			<div class="img-box">
-				<img class="search-avatar" src="img/blank_avatar_small.png" ></img>
-			</div>
-			<div class="details-box padding-left">
-				<p>Ira Reid</p>
-				<p>Austin Texas</p>
-				<p>Status: Employed - Barista</p>
-			</div>
-		</div>
-		<br/>
-		<div class="user-container">
-			<div class="img-box">
-				<img class="search-avatar" src="img/blank_avatar_small.png" ></img>
-			</div>
-			<div class="details-box padding-left">
-				<p>Jeremy Valdez</p>
-				<p>Seattle, Washington</p>
-				<p>Status: Employed - Unemployed</p>
-			</div>
-		</div>
-		<br/>
-		<div class="user-container">
-			<div class="img-box">
-				<img class="search-avatar" src="img/blank_avatar_small.png" ></img>
-			</div>
-			<div class="details-box padding-left">
-				<p>David Wilson</p>
-				<p>Leitrim, Ireland</p>
-				<p>Status: Unemployed</p>
-			</div>
-		</div>
-		<br/>
-		<div class="user-container">
-			<div class="img-box">
-				<img class="search-avatar" src="img/blank_avatar_small.png" ></img>
-			</div>
-			<div class="details-box padding-left">
-				<p>Devin Maxwell</p>
-				<p>Los Angeles, California</p>
-				<p>Status: Employed - Structural Engineer</p>
-			</div>
-		</div>
-		<br/>
 	</div>
   </ion-content>
 </ion-view>
