@@ -1,14 +1,24 @@
 angular.module('starter.controllers', [])
 
-.controller('NavCtrl', function($scope, $state, $ionicPopover) {
+.controller('NavCtrl', function($scope, $state, $ionicPopover, $ionicModal) {
 	$scope.referrals = null;
 	$scope.notifications = null;
+
 	$ionicPopover.fromTemplateUrl('templates/notifications.html', {
 		scope: $scope
 	}).then(function(popover) {
 		$scope.notifications = popover;
 	});
 
+	//for showing and deciding on a referral
+	$scope.viewReferral = null;
+/* 	$ionicModal.fromTemplateUrl('templates/pendRefModal.html', {
+		scope: $scope
+	}).then(function(modal) {
+		$scope.viewReferral = modal;
+	});	 */
+	
+	
 	function refreshReferrals() {
 		if ($scope.referrals == null) {
 			var thisUser = fb.getAuth().uid
@@ -24,16 +34,68 @@ angular.module('starter.controllers', [])
 						refObject['authorEmail'] = userObject['Email'];
 						$scope.referrals[refSnapshot.key()] = refObject;
 						$scope.$apply();
+						//console.log($scope.referrals[refSnapshot.key()]);
 					});
 				});
 			});
 		}
 	}
+	$scope.viewReferral = null;
+	$scope.openModal = function(uid) {
+		//console.log("modal for " + uid); 
+		$scope.currentUID = uid;
+		$ionicModal.fromTemplateUrl('templates/pendRefModal.html', {
+			scope: $scope
+		}).then(function(modal) {
+			$scope.viewReferral = modal;
+			modal.show()
+		});
+	}
+	
+	$scope.decideRef = function(uid, accept) {
+	$scope.currentUID = uid;
+	var thisUser = fb.getAuth().uid;
+		if(accept){
+			
+		refObject = $scope.referrals[uid];
+		delete refObject['authorName'];
+		delete refObject['authorEmail'];
+		fb.child("referrals").child(thisUser).child(uid).set(refObject)
 
+
+		
+		// fb.child("referrals").child(thisUser).child(uid).set($scope.referrals[uid]);
+		//[copy + save to referrals code here]
+		
+		}
+		delete $scope.referrals['uid']
+		fb.child("pendingReferrals").child(thisUser).child(uid).remove() 
+		
+		$scope.viewReferral.remove();	
+	}
+	
+	
+	
+	//new
+/* 	function viewReferrals(snapshot) {
+		var refObject = refSnapshot.val();
+		$scope.referrals[refSnapshot.key()] = refObject;
+		console.log(refObject);
+	} */
+	
+	
+	//code for the index.html button to open and load the pending referrals
 	$scope.openNotifications = function($event) {
 		refreshReferrals();
 		$scope.notifications.show($event);
+		
 	}
+	
+	//new
+	/*$scope.openReferral = function($event) {
+		displayReferral();
+		$scope.notifications.show($event);
+	}*/
 
 	$scope.classLoggedIn = function() {
 		return $scope.isLoggedIn() ? "ng-show" : "ng-hide";
@@ -143,7 +205,7 @@ angular.module('starter.controllers', [])
 	}
 				
 	$scope.fullName = "No name";
-	//this might be wrong I'm totally hypothesizing here
+	
 	$scope.incomingReferral;
 	//wip
 	//$scope.displayedReferralText[] = "";
@@ -207,17 +269,7 @@ angular.module('starter.controllers', [])
 		$ionicModal.fromTemplateUrl('templates/pendRefModal.html', {
 			scope: $scope
 			}).then(function(modal) {
-				$scope.modal = modal;
-				
-
-	/* 			  fb.child("pendingReferrals").child(thisUser).limitToFirst(1).once("value", function(snapshot) {
-				  snapshot.forEach(function(childSnapshot) {
-					var a = childSnapshot.key();
-					console.log(a);
-					$scope.incomingReferral = a;
-					});
-				  });  */
-
+				$scope.modal = modal;				
 			});
 		
 		

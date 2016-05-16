@@ -1,0 +1,15 @@
+<ion-modal-view>
+	<ion-content>
+		<div ng-init="currentReferral = referrals[currentUID]">
+			<h3>{{ currentReferral['authorName'] }}</h3>
+			<h5>({{ currentReferral['authorEmail'] }}) | {{ currentReferral['timestamp'] | date }}</h5>
+			<p>{{ currentReferral['referralText'] }} <p>
+			<label class="item">
+				<button class="button button-block button-calm" ng-click="decideRef('{{ currentUID }}', true)" type="submit">Accept</button>
+			</label>
+			<label class="item">
+				<button class="button button-block button-assertive" ng-click="decideRef('{{ currentUID }}', false)" type="submit">Decline</button>
+			</label>
+		</div>
+	</ion-content>
+</ion-modal-view>
